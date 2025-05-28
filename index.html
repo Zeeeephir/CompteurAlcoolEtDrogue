@@ -220,7 +220,7 @@
 
                         <button id="resetButton"
                                 class="w-full mt-6 bg-zinc-600 hover:bg-zinc-700 text-white font-bold py-2 sm:py-3 px-6 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-zinc-500 focus:ring-opacity-50">
-                            Remise à zéro
+                            Remise à zero
                         </button>
                     </div>
 
@@ -322,10 +322,6 @@
                         <h2 class="text-2xl sm:text-3xl font-extrabold mb-6 text-green-600">
                             Paramètres
                         </h2>
-                        <div class="flex items-center mb-4 justify-center">
-                            <input type="checkbox" id="ohYeahSoundToggle" class="form-checkbox h-5 w-5 text-green-600 rounded mr-2">
-                            <label for="ohYeahSoundToggle" class="text-base sm:text-lg text-zinc-300">Activer le son "OH YEAH" aux paliers</label>
-                        </div>
                         <div class="flex items-center mb-4 justify-center">
                             <input type="checkbox" id="actionOrTruthToggle" class="form-checkbox h-5 w-5 text-green-600 rounded mr-2">
                             <label for="actionOrTruthToggle" class="text-base sm:text-lg text-zinc-300">Afficher "Action ou Vérité" aux paliers</label>
@@ -445,7 +441,7 @@
         const recordToBeat = document.getElementById('recordToBeat');
 
         // Références pour les toggles des paramètres
-        const ohYeahSoundToggle = document.getElementById('ohYeahSoundToggle');
+        // const ohYeahSoundToggle = document.getElementById('ohYeahSoundToggle'); // Supprimé
         const actionOrTruthToggle = document.getElementById('actionOrTruthToggle');
 
 
@@ -490,7 +486,7 @@
             "Fais un high-five avec 3 personnes que tu ne connais pas encore.",
             "Raconte une anecdote embarrassante sur toi-même (la plus drôle possible).",
             "Fais une chorégraphie improvisée sur une musique imaginaire.",
-            "Demande à quelqu'un de te donner un défi, et exécute-le (dans les limites du respect et de la sécurité).",
+            "Demande à quelqu's de te donner un défi, et exécute-le (dans les limites du respect et de la sécurité).",
             "Fais le bruit d'une sirène de pompier et cours sur place pendant 10 secondes."
         ];
 
@@ -509,7 +505,7 @@
             "As-tu déjà triché à un examen ? Si oui, comment ?",
             "Quel est le rêve le plus étrange ou le plus coquin que tu aies fait ?",
             "Si tu pouvais avoir un super-pouvoir, mais qu'il soit totalement inutile, lequel choisirais-tu ?",
-            "Quelle est la chose la plus ridicule que tu aies achetée et que tu utilises encore ?",
+            "Quelle est la chose la plus ridicule que you aies achetée et que tu utilises encore ?",
             "As-tu déjà envoyé un message gênant à la mauvaise personne ?",
             "Quel est ton plus grand fantasme secret ?",
             "Si tu devais choisir une seule boisson pour le reste de ta vie, quelle serait-elle ?",
@@ -518,19 +514,19 @@
         ];
 
         // Variables pour les paramètres (avec valeurs par défaut)
-        let ohYeahSoundEnabled = true;
+        // let ohYeahSoundEnabled = true; // Supprimé
         let actionOrTruthEnabled = true;
 
         // Configuration et initialisation de Tone.js pour les sons
         let synth;
-        let ohYeahSynth; // Nouveau synthétiseur pour le son "OH YEAH"
+        // let ohYeahPlayer; // Supprimé
 
         async function setupAudio() {
+            // Initialise le synthétiseur pour les sons de célébration généraux
             if (!synth) {
-                await Tone.start(); // Démarre le contexte audio (nécessaire pour la lecture)
                 synth = new Tone.PolySynth(Tone.Synth, {
                     oscillator: {
-                        type: "sine" // Type d'onde pour le son
+                        type: "sine"
                     },
                     envelope: {
                         attack: 0.01,
@@ -538,21 +534,11 @@
                         sustain: 0.1,
                         release: 0.5
                     }
-                }).toDestination(); // Connecte le synthétiseur à la sortie audio par défaut
+                }).toDestination();
             }
-            if (!ohYeahSynth) {
-                ohYeahSynth = new Tone.MembraneSynth({
-                    pitchDecay: 0.008,
-                    octaves: 2,
-                    envelope: {
-                        attack: 0.001,
-                        decay: 0.4,
-                        sustain: 0.01,
-                        release: 0.4,
-                        attackCurve: "exponential"
-                    }
-                }).toDestination(); // Un son plus percussif pour "OH YEAH"
-            }
+            // Le lecteur pour le son "Oh Yeah" et sa logique de chargement ont été supprimés.
+            // Si vous souhaitez réintroduire un son personnalisé, vous devrez héberger le fichier MP3
+            // sur un service de fichiers statiques (comme GitHub Pages) et le charger ici.
         }
 
         /**
@@ -565,46 +551,39 @@
         }
 
         /**
-         * Joue le son "OH YEAH".
+         * La fonction playOhYeahSound a été supprimée car le son "Oh Yeah" a été retiré.
+         * Si vous la réintroduisez, assurez-vous qu'elle utilise un fichier audio hébergé.
          */
-        function playOhYeahSound() {
-            if (ohYeahSoundEnabled && ohYeahSynth) {
-                // Simule un "OH YEAH" avec une petite mélodie ascendante
-                ohYeahSynth.triggerAttackRelease("C3", "0.1");
-                ohYeahSynth.triggerAttackRelease("E3", "0.1", Tone.now() + 0.1);
-                ohYeahSynth.triggerAttackRelease("G3", "0.1", Tone.now() + 0.2);
-                ohYeahSynth.triggerAttackRelease("C4", "0.2", Tone.now() + 0.3);
-            }
-        }
+        // function playOhYeahSound() { ... } // Supprimé
 
         // Fonction pour charger les paramètres depuis le localStorage
         function loadSettings() {
-            const savedOhYeah = localStorage.getItem('ohYeahSoundEnabled');
+            // const savedOhYeah = localStorage.getItem('ohYeahSoundEnabled'); // Supprimé
             const savedActionOrTruth = localStorage.getItem('actionOrTruthEnabled');
 
-            if (savedOhYeah !== null) {
-                ohYeahSoundEnabled = JSON.parse(savedOhYeah);
-            }
+            // if (savedOhYeah !== null) { // Supprimé
+            //     ohYeahSoundEnabled = JSON.parse(savedOhYeah); // Supprimé
+            // } // Supprimé
             if (savedActionOrTruth !== null) {
                 actionOrTruthEnabled = JSON.parse(savedActionOrTruth);
             }
 
             // Mettre à jour les checkboxes dans l'interface utilisateur
-            ohYeahSoundToggle.checked = ohYeahSoundEnabled;
+            // ohYeahSoundToggle.checked = ohYeahSoundEnabled; // Supprimé
             actionOrTruthToggle.checked = actionOrTruthEnabled;
         }
 
         // Fonction pour sauvegarder les paramètres dans le localStorage
         function saveSettings() {
-            localStorage.setItem('ohYeahSoundEnabled', JSON.stringify(ohYeahSoundEnabled));
+            // localStorage.setItem('ohYeahSoundEnabled', JSON.stringify(ohYeahSoundEnabled)); // Supprimé
             localStorage.setItem('actionOrTruthEnabled', JSON.stringify(actionOrTruthEnabled));
         }
 
         // Écouteurs pour les toggles des paramètres
-        ohYeahSoundToggle.addEventListener('change', () => {
-            ohYeahSoundEnabled = ohYeahSoundToggle.checked;
-            saveSettings();
-        });
+        // ohYeahSoundToggle.addEventListener('change', () => { // Supprimé
+        //     ohYeahSoundEnabled = ohYeahSoundToggle.checked; // Supprimé
+        //     saveSettings(); // Supprimé
+        // }); // Supprimé
 
         actionOrTruthToggle.addEventListener('change', () => {
             actionOrTruthEnabled = actionOrTruthToggle.checked;
@@ -637,7 +616,11 @@
         tabSettings.addEventListener('click', () => changeTab('Settings')); // Écouteur pour le nouvel onglet Paramètres
 
         // Écouteurs pour la navigation entre les écrans
-        startButton.addEventListener('click', () => {
+        startButton.addEventListener('click', async () => {
+            // Démarre le contexte audio sur une interaction utilisateur
+            await Tone.start();
+            console.log("Audio context started!");
+
             welcomeScreen.classList.add('hidden');
             objectiveSettingScreen.classList.remove('hidden');
             initialObjectiveInput.value = objective;
@@ -748,10 +731,10 @@
             // Célébration du palier 1
             if (jagerbombCount >= milestone1Value && !milestone1Reached) {
                 if (milestone1Value > 0) {
+                    // playOhYeahSound(); // Supprimé
                     if (actionOrTruthEnabled) {
                         showActionOrTruthScreen(milestone1Value);
                     } else {
-                        playOhYeahSound();
                         spawnConfettiEmojis(30, window.innerWidth / 2, window.innerHeight / 2, 0.8);
                     }
                     milestone1Text.classList.add('milestone-text-active');
@@ -762,10 +745,10 @@
             // Célébration du palier 2
             if (jagerbombCount >= milestone2Value && !milestone2Reached) {
                 if (milestone2Value > 0) {
+                    // playOhYeahSound(); // Supprimé
                     if (actionOrTruthEnabled) {
                         showActionOrTruthScreen(milestone2Value);
                     } else {
-                        playOhYeahSound();
                         spawnConfettiEmojis(30, window.innerWidth / 2, window.innerHeight / 2, 0.8);
                     }
                     milestone2Text.classList.add('milestone-text-active');
@@ -776,10 +759,10 @@
             // Célébration du palier 3
             if (jagerbombCount >= milestone3Value && !milestone3Reached) {
                 if (milestone3Value > 0) {
+                    // playOhYeahSound(); // Supprimé
                     if (actionOrTruthEnabled) {
                         showActionOrTruthScreen(milestone3Value);
                     } else {
-                        playOhYeahSound();
                         spawnConfettiEmojis(30, window.innerWidth / 2, window.innerHeight / 2, 0.8);
                     }
                     milestone3Text.classList.add('milestone-text-active');
