@@ -53,7 +53,7 @@
 
         /* Styles pour les onglets */
         .tab-button {
-            flex-grow: 1; /* Permet aux boutons d'onglets de prendre de l'espace égal */
+            /* flex-grow: 1; <-- Supprimé pour permettre le défilement horizontal */
             text-align: center; /* Centrer le texte pour les onglets horizontaux */
             border-bottom: 2px solid transparent; /* Bordure par défaut pour le bas (mobile) */
             color: #d4d4d8; /* Couleur de texte par défaut */
@@ -161,7 +161,7 @@
 
         <div id="mainAppScreen" class="flex flex-col items-center lg:flex-row lg:items-start justify-center gap-4 sm:gap-8 p-4 w-full max-w-6xl mx-auto hidden">
             <div class="bg-zinc-800 p-4 sm:p-8 rounded-xl shadow-2xl w-full border border-zinc-700 relative overflow-hidden flex flex-col">
-                <div class="flex flex-row justify-around border-b border-zinc-700 lg:flex-col lg:border-b-0 lg:border-r lg:pr-4 lg:mr-4 lg:w-1/4 pb-2 lg:pb-0">
+                <div class="flex flex-row justify-around border-b border-zinc-700 lg:flex-col lg:border-b-0 lg:border-r lg:pr-4 lg:mr-4 lg:w-1/4 pb-2 lg:pb-0 w-full overflow-x-auto flex-nowrap">
                     <h1 class="hidden lg:block text-2xl font-extrabold mb-6 text-green-600 text-left">
                         Nombre personnel de Jägerbombs
                     </h1>
@@ -932,7 +932,7 @@
          * Génère des emojis festifs qui se dispersent et s'estompent pour simuler des feux d'artifice.
          */
         function spawnConfettiEmojis(numEmojis = 30, originX = window.innerWidth / 2, originY = window.innerHeight / 2, spreadFactor = 0.8) {
-            const emojis = ['🎉', '🎆', '✨', '🍾', '🥳', '🎊', '�', '🍻', '🥃', '👯'];
+            const emojis = ['🎉', '🎆', '✨', '🍾', '🥳', '🎊', '🥂', '🍻', '🥃', '👯'];
 
             for (let i = 0; i < numEmojis; i++) {
                 const emoji = document.createElement('span');
@@ -1126,4 +1126,3 @@
     </script>
 </body>
 </html>
-                                
