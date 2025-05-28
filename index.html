@@ -10,6 +10,7 @@
         body {
             font-family: "Inter", sans-serif;
             display: flex;
+            flex-direction: column; /* Permet aux éléments de s'empiler verticalement */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -158,7 +159,7 @@
             </button>
         </div>
 
-        <div id="mainAppScreen" class="flex flex-col items-center lg:flex-row lg:items-start justify-center gap-4 sm:gap-8 p-0 sm:p-4 w-full max-w-6xl mx-auto hidden">
+        <div id="mainAppScreen" class="flex flex-col items-center lg:flex-row lg:items-start justify-center gap-4 sm:gap-8 p-4 w-full max-w-6xl mx-auto hidden">
             <div class="bg-zinc-800 p-4 sm:p-8 rounded-xl shadow-2xl w-full border border-zinc-700 relative overflow-hidden flex flex-col">
                 <div class="flex flex-row justify-around border-b border-zinc-700 lg:flex-col lg:border-b-0 lg:border-r lg:pr-4 lg:mr-4 lg:w-1/4 pb-2 lg:pb-0">
                     <h1 class="hidden lg:block text-2xl font-extrabold mb-6 text-green-600 text-left">
@@ -173,10 +174,19 @@
                     <button id="tabBAC" class="tab-button text-sm sm:text-md font-semibold transition-colors duration-200">
                         Alcoolémie
                     </button>
+                    <button id="tabGame" class="tab-button text-sm sm:text-md font-semibold transition-colors duration-200">
+                        Jeu
+                    </button>
+                    <button id="tabSettings" class="tab-button text-sm sm:text-md font-semibold transition-colors duration-200">
+                        Paramètres
+                    </button>
                 </div>
 
                 <div id="tabContent" class="flex-grow text-center mt-4 lg:mt-0 p-4 sm:p-0">
                     <div id="contentCounter" class="tab-pane">
+                        <p id="recordToBeat" class="text-xs sm:text-sm text-zinc-400 text-left mb-4">
+                            Record à battre : 2500 Jägerbombs au total !
+                        </p>
                         <p class="text-base sm:text-lg mb-4 text-zinc-300">
                             Nombre de Jägerbombs bu(s) :
                         </p>
@@ -261,7 +271,7 @@
                         <p class="text-base sm:text-lg mb-2 text-zinc-300">
                             Statut de conduite :
                         </p>
-                        <div id="drivingStatusDisplay" class="text-2xl sm:text-3xl font-bold mb-6">
+                        <div id="drivingStatusDisplay" class="text-2xl sm:text-3xl font-bold">
                             </div>
 
                         <p class="text-base sm:text-lg mb-2 text-zinc-300">
@@ -271,13 +281,54 @@
                             0h 00m
                         </div>
                         <p class="text-xs sm:text-sm mt-2 text-zinc-400">
-                            (Basé sur un homme moyen et une élimination de 0.15 g/L par heure)
+                            (Basé sur un homme moyen et une élimination de 0.10 à 0.15 g/L par heure)
                         </p>
                         <p class="text-xs sm:text-sm mt-2 text-zinc-400">
                             Heure estimée pour conduire :
                         </p>
                         <div id="driveTimeDisplay" class="text-xl sm:text-2xl font-bold text-green-400">
                             --:--
+                        </div>
+                    </div>
+
+                    <div id="contentGame" class="tab-pane hidden">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold mb-6 text-green-600">
+                            Attrape le Jägerbomb !
+                        </h2>
+                        <p class="text-base sm:text-lg mb-4 text-zinc-300">
+                            Score : <span id="gameScoreDisplay" class="font-bold text-orange-400">0</span>
+                        </p>
+                        <p class="text-base sm:text-lg mb-6 text-zinc-300">
+                            Temps restant : <span id="gameTimerDisplay" class="font-bold text-yellow-400">30s</span>
+                        </p>
+                        <button id="startGameButton"
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 sm:py-4 px-6 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
+                            Commencer le jeu
+                        </button>
+                        <div id="gameArea" class="relative w-full h-64 sm:h-80 bg-zinc-700 rounded-lg mt-6 overflow-hidden border-2 border-zinc-600">
+                            </div>
+                        <div id="gameResultDisplay" class="hidden mt-4 p-4 bg-zinc-700 rounded-lg">
+                            <p class="text-xl sm:text-2xl font-bold text-green-400 mb-2">Partie terminée !</p>
+                            <p class="text-lg sm:text-xl text-zinc-300">Votre score : <span id="finalGameScore" class="font-bold text-orange-400">0</span></p>
+                            <p class="text-lg sm:text-xl text-zinc-300">Meilleur score : <span id="highGameScore" class="font-bold text-yellow-400">0</span></p>
+                            <button id="playAgainButton"
+                                    class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
+                                Rejouer
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="contentSettings" class="tab-pane hidden">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold mb-6 text-green-600">
+                            Paramètres
+                        </h2>
+                        <div class="flex items-center mb-4 justify-center">
+                            <input type="checkbox" id="ohYeahSoundToggle" class="form-checkbox h-5 w-5 text-green-600 rounded mr-2">
+                            <label for="ohYeahSoundToggle" class="text-base sm:text-lg text-zinc-300">Activer le son "OH YEAH" aux paliers</label>
+                        </div>
+                        <div class="flex items-center mb-4 justify-center">
+                            <input type="checkbox" id="actionOrTruthToggle" class="form-checkbox h-5 w-5 text-green-600 rounded mr-2">
+                            <label for="actionOrTruthToggle" class="text-base sm:text-lg text-zinc-300">Afficher "Action ou Vérité" aux paliers</label>
                         </div>
                     </div>
                 </div>
@@ -315,6 +366,13 @@
         <p class="text-3xl sm:text-4xl font-bold" id="ultimateCelebrationCount">0 Jägerbombs !</p>
     </div>
 
+    <footer class="mt-8 mb-4 text-zinc-400 text-sm flex flex-col items-center justify-center gap-2">
+        <p>fait par NoisyNeighbors</p>
+        <a href="https://www.instagram.com/noisyneighborsmusic?igsh=MW5rZzJ4ajBpdDVvMA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity">
+            <img src="https://placehold.co/32x32/18181b/d4d4d8?text=IG" alt="Logo Instagram" class="w-8 h-8 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/32x32/18181b/d4d4d8?text=IG'">
+        </a>
+    </footer>
+
     <script>
         // Références aux éléments du DOM
         const welcomeScreen = document.getElementById('welcomeScreen');
@@ -332,7 +390,6 @@
         const increment10Button = document.getElementById('increment10Button');
         const increment20Button = document.getElementById('increment20Button');
         const resetButton = document.getElementById('resetButton');
-        // const celebrationMessage = document.getElementById('celebrationMessage'); // Removed, not used in HTML
         const objectiveInput = document.getElementById('objectiveInput');
         const liquidLevel = document.getElementById('liquidLevel');
         const fireworksContainer = document.getElementById('fireworksContainer');
@@ -357,9 +414,15 @@
         const tabCounter = document.getElementById('tabCounter');
         const tabObjective = document.getElementById('tabObjective');
         const tabBAC = document.getElementById('tabBAC');
+        const tabGame = document.getElementById('tabGame');
+        const tabSettings = document.getElementById('tabSettings');
+
         const contentCounter = document.getElementById('contentCounter');
         const contentObjective = document.getElementById('contentObjective');
         const contentBAC = document.getElementById('contentBAC');
+        const contentGame = document.getElementById('contentGame');
+        const contentSettings = document.getElementById('contentSettings');
+
 
         // Références pour l'écran Action ou Vérité
         const actionOrTruthScreen = document.getElementById('actionOrTruthScreen');
@@ -367,6 +430,24 @@
         const truthButton = document.getElementById('truthButton');
         const challengeDisplay = document.getElementById('challengeDisplay');
         const doneButton = document.getElementById('doneButton');
+
+        // Références pour le jeu
+        const gameScoreDisplay = document.getElementById('gameScoreDisplay');
+        const gameTimerDisplay = document.getElementById('gameTimerDisplay');
+        const startGameButton = document.getElementById('startGameButton');
+        const gameArea = document.getElementById('gameArea');
+        const gameResultDisplay = document.getElementById('gameResultDisplay');
+        const finalGameScore = document.getElementById('finalGameScore');
+        const highGameScore = document.getElementById('highGameScore');
+        const playAgainButton = document.getElementById('playAgainButton');
+
+        // Référence pour le message du record sur le compteur
+        const recordToBeat = document.getElementById('recordToBeat');
+
+        // Références pour les toggles des paramètres
+        const ohYeahSoundToggle = document.getElementById('ohYeahSoundToggle');
+        const actionOrTruthToggle = document.getElementById('actionOrTruthToggle');
+
 
         // Initialisation du compteur et de l'objectif
         let jagerbombCount = 0;
@@ -379,11 +460,11 @@
         let milestone3Reached = false;
 
         // Constantes pour le calcul d'alcoolémie
-        const JAG_ML = 45;
-        const JAG_ABV = 0.35;
+        const JAG_ML = 30; 
+        const JAG_ABV = 0.35; 
         const ETHANOL_DENSITY = 0.789;
-        const MALE_R_FACTOR = 0.68;
-        const ELIMINATION_RATE = 0.15;
+        const MALE_R_FACTOR = 0.68; 
+        const ELIMINATION_RATE = 0.12; 
 
         // Limites légales d'alcoolémie en g/L
         const LEGAL_LIMIT_STANDARD = 0.5;
@@ -391,54 +472,59 @@
 
         // Base de données d'actions et de vérités (MISES À JOUR)
         const actions = [
-            "Fais un dab géant et crie 'Jäger time !'",
-            "Imite le cri d'un animal de la jungle en buvant ton prochain Jägerbomb.",
-            "Danse la Macarena à l'envers pendant 30 secondes.",
-            "Fais un selfie avec la personne la plus 'chill' de la soirée et montre-le.",
-            "Chante une chanson de Disney avec la voix la plus aiguë possible.",
-            "Échange tes chaussettes avec quelqu'un d'autre (si tu en portes).",
-            "Fais une déclaration d'amour passionnée à un objet aléatoire (ex: une chaise, une plante).",
-            "Tente de faire tenir une cuillère sur ton nez pendant 10 secondes.",
-            "Parle en rimes jusqu'à ton prochain Jägerbomb.",
-            "Fais le bruit d'une sirène de police en courant sur place.",
-            "Demande à quelqu'un de te faire un compliment absurde.",
-            "Fais un 'air guitar' épique sur une musique imaginaire.",
-            "Écris ton nom avec tes fesses dans l'air, sans les mains.",
-            "Fais une imitation de ton professeur le plus ennuyeux.",
-            "Essaie de lécher ton coude (sans tricher !).",
-            "Fais un high-five avec 5 personnes différentes en moins de 10 secondes.",
-            "Raconte une blague tellement nulle qu'elle en devient drôle.",
-            "Fais 10 pas de danse aléatoires et ridicules.",
-            "Demande à quelqu'un de te donner un défi, et exécute-le (dans la limite du raisonnable).",
-            "Fais une grimace et garde-la pendant 15 secondes."
+            "Fais un air-guitar épique avec une bouteille vide.",
+            "Imite ton professeur le plus ennuyeux en racontant une blague culte.",
+            "Tente de faire 5 pompes en chantant l'hymne national.",
+            "Fais un compliment sincère à la personne la plus improbable de la pièce.",
+            "Danse le limbo sous une règle, sans la faire tomber.",
+            "Écris un haïku sur la soirée actuelle.",
+            "Fais une déclaration d'amour passionnée à ton verre (vide ou plein).",
+            "Essaie de lécher ton coude (sans tricher, c'est impossible !).",
+            "Parle avec un accent étranger jusqu'à ton prochain Jägerbomb.",
+            "Fais 10 jumping jacks en criant le nom de ton animal totem.",
+            "Demande à quelqu'un de te raconter son rêve le plus bizarre.",
+            "Fais le bruit d'un animal de la ferme à chaque fois que tu ris pendant 5 minutes.",
+            "Chante le refrain d'une chanson paillarde à tue-tête.",
+            "Fais une grimace et garde-la jusqu'à ce que quelqu'un la remarque.",
+            "Tente de faire un tour de magie raté, mais avec conviction.",
+            "Fais un high-five avec 3 personnes que tu ne connais pas encore.",
+            "Raconte une anecdote embarrassante sur toi-même (la plus drôle possible).",
+            "Fais une chorégraphie improvisée sur une musique imaginaire.",
+            "Demande à quelqu'un de te donner un défi, et exécute-le (dans les limites du respect et de la sécurité).",
+            "Fais le bruit d'une sirène de pompier et cours sur place pendant 10 secondes."
         ];
 
         const truths = [
-            "Quel est le truc le plus bizarre que tu aies mangé en soirée ?",
-            "Si tu étais un cocktail, lequel serais-tu et pourquoi ?",
-            "Quelle est la chose la plus embarrassante que tu aies postée sur les réseaux sociaux ?",
-            "As-tu déjà 'emprunté' quelque chose à un coloc sans le lui dire ? Si oui, quoi ?",
-            "Quel est ton plus grand talent caché (même si c'est inutile) ?",
-            "Si tu pouvais échanger ta vie avec un personnage de série télé, qui choisirais-tu ?",
-            "Quelle est la chose la plus folle que tu aies faite pour éviter d'étudier ?",
-            "Quel est ton pire souvenir de gueule de bois ?",
-            "As-tu déjà fait semblant de comprendre quelque chose alors que tu n'avais aucune idée ?",
-            "Si tu pouvais avoir un super-pouvoir lié à la fête, lequel serait-il ?",
-            "Quelle est la pire excuse que tu aies donnée pour ne pas aller en cours ?",
-            "As-tu déjà confondu quelqu'un avec une autre personne en soirée ?",
-            "Quel est le surnom le plus ridicule que tu aies eu ?",
-            "Si tu pouvais voyager dans le temps, à quelle époque irais-tu pour faire la fête ?",
-            "Quelle est la chose la plus drôle que tu aies vue quelqu'un faire sous l'effet de l'alcool ?",
-            "As-tu déjà eu un crush sur un professeur ?",
-            "Quel est ton 'guilty pleasure' musical (que tu écoutes en secret) ?",
-            "Si tu devais vivre avec un animal, lequel choisirais-tu et pourquoi ?",
-            "Quel est le pire cadeau que tu aies offert ou reçu ?",
-            "Quelle est la chose la plus inattendue que tu aies apprise sur quelqu'un en soirée ?"
+            "Quelle est la chose la plus folle que tu aies faite en soirée et que tu regrettes un peu ?",
+            "Si tu devais te réveiller demain matin dans le corps de quelqu'un d'autre ici, qui choisirais-tu et pourquoi ?",
+            "Quel est ton 'guilty pleasure' le plus inavouable en matière de musique ou de film ?",
+            "As-tu déjà menti pour éviter une situation sociale ? Si oui, laquelle ?",
+            "Quelle est la chose la plus embarrassante que tes parents t'aient racontée sur toi ?",
+            "Si tu pouvais avoir un rendez-vous avec n'importe quelle célébrité, morte ou vivante, qui choisirais-tu ?",
+            "Quel est le secret le plus bizarre que tu aies gardé pour quelqu'un d'autre ?",
+            "As-tu déjà eu un crush sur un ami très proche ? Si oui, est-ce toujours le cas ?",
+            "Quelle est la chose la plus illégale (mais pas trop grave !) que tu aies faite ?",
+            "Si tu pouvais changer une chose à propos de ta vie amoureuse passée, quelle serait-elle ?",
+            "Quelle est la pire excuse que tu aies donnée pour ne pas aller en cours/travail ?",
+            "As-tu déjà triché à un examen ? Si oui, comment ?",
+            "Quel est le rêve le plus étrange ou le plus coquin que tu aies fait ?",
+            "Si tu pouvais avoir un super-pouvoir, mais qu'il soit totalement inutile, lequel choisirais-tu ?",
+            "Quelle est la chose la plus ridicule que tu aies achetée et que tu utilises encore ?",
+            "As-tu déjà envoyé un message gênant à la mauvaise personne ?",
+            "Quel est ton plus grand fantasme secret ?",
+            "Si tu devais choisir une seule boisson pour le reste de ta vie, quelle serait-elle ?",
+            "Quelle est la chose la plus folle que tu aies faite pour impressionner quelqu'un ?",
+            "As-tu déjà volé quelque chose (même petit) ? Si oui, quoi ?"
         ];
 
+        // Variables pour les paramètres (avec valeurs par défaut)
+        let ohYeahSoundEnabled = true;
+        let actionOrTruthEnabled = true;
 
         // Configuration et initialisation de Tone.js pour les sons
         let synth;
+        let ohYeahSynth; // Nouveau synthétiseur pour le son "OH YEAH"
+
         async function setupAudio() {
             if (!synth) {
                 await Tone.start(); // Démarre le contexte audio (nécessaire pour la lecture)
@@ -454,17 +540,77 @@
                     }
                 }).toDestination(); // Connecte le synthétiseur à la sortie audio par défaut
             }
+            if (!ohYeahSynth) {
+                ohYeahSynth = new Tone.MembraneSynth({
+                    pitchDecay: 0.008,
+                    octaves: 2,
+                    envelope: {
+                        attack: 0.001,
+                        decay: 0.4,
+                        sustain: 0.01,
+                        release: 0.4,
+                        attackCurve: "exponential"
+                    }
+                }).toDestination(); // Un son plus percussif pour "OH YEAH"
+            }
         }
 
         /**
-         * Joue un son de célébration.
+         * Joue un son de célébration général.
          */
         function playCelebrationSound() {
             if (synth) {
-                // Joue un accord simple pour un effet festif
                 synth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "8n");
             }
         }
+
+        /**
+         * Joue le son "OH YEAH".
+         */
+        function playOhYeahSound() {
+            if (ohYeahSoundEnabled && ohYeahSynth) {
+                // Simule un "OH YEAH" avec une petite mélodie ascendante
+                ohYeahSynth.triggerAttackRelease("C3", "0.1");
+                ohYeahSynth.triggerAttackRelease("E3", "0.1", Tone.now() + 0.1);
+                ohYeahSynth.triggerAttackRelease("G3", "0.1", Tone.now() + 0.2);
+                ohYeahSynth.triggerAttackRelease("C4", "0.2", Tone.now() + 0.3);
+            }
+        }
+
+        // Fonction pour charger les paramètres depuis le localStorage
+        function loadSettings() {
+            const savedOhYeah = localStorage.getItem('ohYeahSoundEnabled');
+            const savedActionOrTruth = localStorage.getItem('actionOrTruthEnabled');
+
+            if (savedOhYeah !== null) {
+                ohYeahSoundEnabled = JSON.parse(savedOhYeah);
+            }
+            if (savedActionOrTruth !== null) {
+                actionOrTruthEnabled = JSON.parse(savedActionOrTruth);
+            }
+
+            // Mettre à jour les checkboxes dans l'interface utilisateur
+            ohYeahSoundToggle.checked = ohYeahSoundEnabled;
+            actionOrTruthToggle.checked = actionOrTruthEnabled;
+        }
+
+        // Fonction pour sauvegarder les paramètres dans le localStorage
+        function saveSettings() {
+            localStorage.setItem('ohYeahSoundEnabled', JSON.stringify(ohYeahSoundEnabled));
+            localStorage.setItem('actionOrTruthEnabled', JSON.stringify(actionOrTruthEnabled));
+        }
+
+        // Écouteurs pour les toggles des paramètres
+        ohYeahSoundToggle.addEventListener('change', () => {
+            ohYeahSoundEnabled = ohYeahSoundToggle.checked;
+            saveSettings();
+        });
+
+        actionOrTruthToggle.addEventListener('change', () => {
+            actionOrTruthEnabled = actionOrTruthToggle.checked;
+            saveSettings();
+        });
+
 
         // Fonction pour changer d'onglet
         function changeTab(tabId) {
@@ -487,32 +633,32 @@
         tabCounter.addEventListener('click', () => changeTab('Counter'));
         tabObjective.addEventListener('click', () => changeTab('Objective'));
         tabBAC.addEventListener('click', () => changeTab('BAC'));
+        tabGame.addEventListener('click', () => changeTab('Game'));
+        tabSettings.addEventListener('click', () => changeTab('Settings')); // Écouteur pour le nouvel onglet Paramètres
 
         // Écouteurs pour la navigation entre les écrans
         startButton.addEventListener('click', () => {
             welcomeScreen.classList.add('hidden');
             objectiveSettingScreen.classList.remove('hidden');
-            // S'assurer que l'input de l'objectif initial est synchronisé avec l'objectif actuel
             initialObjectiveInput.value = objective;
-            objectiveError.classList.add('hidden'); // Cacher l'erreur au début
+            objectiveError.classList.add('hidden');
         });
 
         setObjectiveButton.addEventListener('click', () => {
             const newObjective = parseInt(initialObjectiveInput.value);
             if (!isNaN(newObjective) && newObjective > 0) {
                 objective = newObjective;
-                objectiveInput.value = newObjective; // Synchronise l'input de l'objectif dans l'onglet
+                objectiveInput.value = newObjective;
                 objectiveSettingScreen.classList.add('hidden');
                 mainAppScreen.classList.remove('hidden');
-                // Réinitialiser les flags de paliers lors du changement d'objectif
                 milestone1Reached = false;
                 milestone2Reached = false;
                 milestone3Reached = false;
-                updateDisplay(); // Met à jour l'affichage et les calculs
-                changeTab('Counter'); // Aller à l'onglet compteur après avoir défini l'objectif
-                objectiveError.classList.add('hidden'); // Cacher l'erreur si valide
+                updateDisplay();
+                changeTab('Counter');
+                objectiveError.classList.add('hidden');
             } else {
-                objectiveError.classList.remove('hidden'); // Afficher l'erreur
+                objectiveError.classList.remove('hidden');
             }
         });
 
@@ -524,18 +670,17 @@
                     previousJagerbombCount = jagerbombCount;
                 }
                 objective = newObjective;
-                // Réinitialiser les flags de paliers si l'objectif change et que le compteur est inférieur
                 milestone1Reached = false;
                 milestone2Reached = false;
                 milestone3Reached = false;
-                updateGauge(); // Met à jour la jauge immédiatement si l'objectif change
+                updateDisplay(); // Appelle updateDisplay pour tout rafraîchir
             } else {
                 objective = 50;
                 objectiveInput.value = 50;
                 milestone1Reached = false;
                 milestone2Reached = false;
                 milestone3Reached = false;
-                updateGauge();
+                updateDisplay(); // Appelle updateDisplay pour tout rafraîchir
             }
         });
 
@@ -548,20 +693,20 @@
          * @param {number} milestoneValue - La valeur du palier qui a été atteint.
          */
         function showActionOrTruthScreen(milestoneValue) {
-            mainAppScreen.classList.add('hidden'); // Masquer l'application principale
-            actionOrTruthScreen.style.display = 'flex'; // Afficher l'écran Action ou Vérité
-            playCelebrationSound(); // Joue un son de célébration
-            spawnConfettiEmojis(30, window.innerWidth / 2, window.innerHeight / 2, 0.8); // Confettis
-            challengeDisplay.textContent = "Choisis ton destin !"; // Réinitialise le texte
+            mainAppScreen.classList.add('hidden');
+            actionOrTruthScreen.style.display = 'flex';
+            playCelebrationSound();
+            spawnConfettiEmojis(30, window.innerWidth / 2, window.innerHeight / 2, 0.8);
+            challengeDisplay.textContent = "Choisis ton destin !";
         }
 
         /**
          * Cache l'écran Action ou Vérité.
          */
         function hideActionOrTruthScreen() {
-            actionOrTruthScreen.style.display = 'none'; // Masquer l'écran Action ou Vérité
-            mainAppScreen.classList.remove('hidden'); // Afficher l'application principale
-            challengeDisplay.textContent = ""; // Efface le défi affiché
+            actionOrTruthScreen.style.display = 'none';
+            mainAppScreen.classList.remove('hidden');
+            challengeDisplay.textContent = "";
         }
 
         /**
@@ -592,21 +737,10 @@
          */
         function updateDisplay() {
             countDisplay.textContent = jagerbombCount;
-            updateGauge(); // Toujours mettre à jour la jauge
-            updateBacCalculator(); // Toujours mettre à jour le calculateur d'alcoolémie
-            updateNextMilestoneDisplay(); // Mettre à jour l'affichage du prochain palier
+            updateGauge();
+            updateBacCalculator();
+            updateNextMilestoneDisplay();
 
-            // Déclenche la célébration des "paliers" (multiples de 50)
-            // if (jagerbombCount > 0 && jagerbombCount % 50 === 0 && previousJagerbombCount % 50 !== 0) {
-            //     celebrationMessage.textContent = `Félicitations ! ${jagerbombCount} Jägerbombs !`;
-            //     celebrationMessage.classList.remove('hidden');
-            //     setTimeout(() => {
-            //         celebrationMessage.classList.add('hidden');
-            //     }, 2000); // Durée du message de célébration
-            //     spawnConfettiEmojis(50, window.innerWidth / 2, window.innerHeight / 2, 0.8); // Confettis standards
-            // }
-
-            // Déclenche les célébrations pour les paliers de la jauge
             const milestone1Value = Math.round(objective * 0.33);
             const milestone2Value = Math.round(objective * 0.66);
             const milestone3Value = Math.round(objective * 0.90);
@@ -614,7 +748,12 @@
             // Célébration du palier 1
             if (jagerbombCount >= milestone1Value && !milestone1Reached) {
                 if (milestone1Value > 0) {
-                    showActionOrTruthScreen(milestone1Value); // Affiche l'écran Action ou Vérité
+                    if (actionOrTruthEnabled) {
+                        showActionOrTruthScreen(milestone1Value);
+                    } else {
+                        playOhYeahSound();
+                        spawnConfettiEmojis(30, window.innerWidth / 2, window.innerHeight / 2, 0.8);
+                    }
                     milestone1Text.classList.add('milestone-text-active');
                     setTimeout(() => milestone1Text.classList.remove('milestone-text-active'), 1000);
                 }
@@ -623,7 +762,12 @@
             // Célébration du palier 2
             if (jagerbombCount >= milestone2Value && !milestone2Reached) {
                 if (milestone2Value > 0) {
-                    showActionOrTruthScreen(milestone2Value); // Affiche l'écran Action ou Vérité
+                    if (actionOrTruthEnabled) {
+                        showActionOrTruthScreen(milestone2Value);
+                    } else {
+                        playOhYeahSound();
+                        spawnConfettiEmojis(30, window.innerWidth / 2, window.innerHeight / 2, 0.8);
+                    }
                     milestone2Text.classList.add('milestone-text-active');
                     setTimeout(() => milestone2Text.classList.remove('milestone-text-active'), 1000);
                 }
@@ -632,20 +776,23 @@
             // Célébration du palier 3
             if (jagerbombCount >= milestone3Value && !milestone3Reached) {
                 if (milestone3Value > 0) {
-                    showActionOrTruthScreen(milestone3Value); // Affiche l'écran Action ou Vérité
+                    if (actionOrTruthEnabled) {
+                        showActionOrTruthScreen(milestone3Value);
+                    } else {
+                        playOhYeahSound();
+                        spawnConfettiEmojis(30, window.innerWidth / 2, window.innerHeight / 2, 0.8);
+                    }
                     milestone3Text.classList.add('milestone-text-active');
                     setTimeout(() => milestone3Text.classList.remove('milestone-text-active'), 1000);
                 }
                 milestone3Reached = true;
             }
 
-
             // Déclenche la célébration "objectif atteint" (beaucoup plus festive)
             if (jagerbombCount >= objective && previousJagerbombCount < objective) {
                 showUltimateCelebration();
             }
 
-            // Met à jour le compte précédent pour la prochaine itération
             previousJagerbombCount = jagerbombCount;
         }
 
@@ -676,7 +823,7 @@
             const m2Bottom = (milestone2Value / objective) * 100;
             const m3Bottom = (milestone3Value / objective) * 100;
 
-            milestone1.style.bottom = `${Math.min(m1Bottom, 99)}%`; // Limiter à 99% pour ne pas dépasser
+            milestone1.style.bottom = `${Math.min(m1Bottom, 99)}%`;
             milestone2.style.bottom = `${Math.min(m2Bottom, 99)}%`;
             milestone3.style.bottom = `${Math.min(m3Bottom, 99)}%`;
 
@@ -685,7 +832,6 @@
             milestone2Text.textContent = `${milestone2Value}`;
             milestone3Text.textContent = `${milestone3Value}`;
 
-            // Assurez-vous que les textes des paliers sont toujours visibles
             milestone1Text.style.display = 'block';
             milestone2Text.style.display = 'block';
             milestone3Text.style.display = 'block';
@@ -731,7 +877,7 @@
          * Calcule et affiche l'alcoolémie estimée, le temps de décuvage et le statut de conduite.
          */
         function updateBacCalculator() {
-            const weight = parseFloat(weightInput.value); // Poids de l'utilisateur en kg
+            const weight = parseFloat(weightInput.value);
             const isYoungDriver = youngDriverCheckbox.checked;
             const currentLegalLimit = isYoungDriver ? LEGAL_LIMIT_YOUNG_DRIVER : LEGAL_LIMIT_STANDARD;
 
@@ -744,23 +890,16 @@
                 return;
             }
 
-            // Calcul de la masse d'alcool pur par Jägerbomb
             const alcoholPerJagerbomb_g = JAG_ML * JAG_ABV * ETHANOL_DENSITY;
-
-            // Masse totale d'alcool pur consommée
             const totalAlcohol_g = jagerbombCount * alcoholPerJagerbomb_g;
 
-            // Calcul de l'alcoolémie (g/L) - Formule de Widmark simplifiée pour les hommes
-            // Alcoolémie (g/L) = (Masse d'alcool en g) / (Poids en kg * Facteur r)
             let bac = 0;
             if (weight > 0) {
                 bac = totalAlcohol_g / (weight * MALE_R_FACTOR);
             }
 
-            // Affichage de l'alcoolémie, arrondie à deux décimales.
             bacDisplay.textContent = bac.toFixed(2);
 
-            // Déterminer le statut de conduite
             if (bac <= currentLegalLimit) {
                 drivingStatusDisplay.textContent = "Vous pouvez conduire";
                 drivingStatusDisplay.className = "text-2xl sm:text-3xl font-bold text-green-500";
@@ -770,21 +909,18 @@
                 drivingStatusDisplay.textContent = "Vous ne pouvez PAS conduire";
                 drivingStatusDisplay.className = "text-2xl sm:text-3xl font-bold text-red-500";
 
-                // Calcul du temps nécessaire pour atteindre la limite légale
                 const bacToEliminate = bac - currentLegalLimit;
                 let timeToReachLimitHours = 0;
                 if (bacToEliminate > 0) {
                     timeToReachLimitHours = bacToEliminate / ELIMINATION_RATE;
                 }
 
-                // Conversion du temps de décuvage en heures et minutes
                 const hoursSoberUp = Math.floor(timeToReachLimitHours);
                 const minutesSoberUp = Math.round((timeToReachLimitHours - hoursSoberUp) * 60);
                 soberUpTimeDisplay.textContent = `${hoursSoberUp}h ${minutesSoberUp}m`;
 
-                // Calcul de l'heure à laquelle on peut conduire
                 const currentTime = new Date();
-                const futureTime = new Date(currentTime.getTime() + timeToReachLimitHours * 60 * 60 * 1000); // Ajouter les heures en millisecondes
+                const futureTime = new Date(currentTime.getTime() + timeToReachLimitHours * 60 * 60 * 1000);
 
                 const driveHours = futureTime.getHours().toString().padStart(2, '0');
                 const driveMinutes = futureTime.getMinutes().toString().padStart(2, '0');
@@ -794,41 +930,31 @@
 
         /**
          * Génère des emojis festifs qui se dispersent et s'estompent pour simuler des feux d'artifice.
-         * @param {number} numEmojis - Le nombre d'emojis à générer.
-         * @param {number} originX - La position X d'où les emojis éclatent.
-         * @param {number} originY - La position Y d'où les emojis éclatent.
-         * @param {number} spreadFactor - Facteur de dispersion des emojis (plus grand = plus dispersé).
          */
         function spawnConfettiEmojis(numEmojis = 30, originX = window.innerWidth / 2, originY = window.innerHeight / 2, spreadFactor = 0.8) {
-            const emojis = ['🎉', '🎆', '✨', '🍾', '🥳', '🎊', '🥂', '🍻', '🥃', '👯']; // Plus d'emojis festifs
+            const emojis = ['🎉', '🎆', '✨', '🍾', '🥳', '🎊', '�', '🍻', '🥃', '👯'];
 
             for (let i = 0; i < numEmojis; i++) {
                 const emoji = document.createElement('span');
                 emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
                 emoji.classList.add('confetti-emoji');
 
-                // Position initiale des emojis
                 const startX = originX;
                 const startY = originY;
 
-                // Position cible aléatoire (dispersée) basée sur le facteur de dispersion
                 const endX = startX + (Math.random() - 0.5) * window.innerWidth * spreadFactor;
                 const endY = startY + (Math.random() - 0.5) * window.innerHeight * spreadFactor;
 
-                // Rotation aléatoire pour un effet plus naturel
-                const rotation = Math.random() * 720 - 360; // De -360 à 360 degrés
+                const rotation = Math.random() * 720 - 360;
 
-                // Applique les variables CSS pour l'animation
                 emoji.style.setProperty('--x', `${endX - startX}px`);
                 emoji.style.setProperty('--y', `${endY - startY}px`);
                 emoji.style.setProperty('--rotate', `${rotation}deg`);
 
-                // Délai aléatoire pour un effet échelonné des confettis
                 emoji.style.animationDelay = `${Math.random() * 0.5}s`;
 
                 fireworksContainer.appendChild(emoji);
 
-                // Supprime l'emoji une fois l'animation terminée pour éviter l'accumulation
                 emoji.addEventListener('animationend', () => {
                     emoji.remove();
                 });
@@ -841,22 +967,20 @@
         function showUltimateCelebration() {
             ultimateCelebrationCount.textContent = `${jagerbombCount} Jägerbombs !`;
             ultimateCelebrationOverlay.classList.remove('hidden');
-            ultimateCelebrationOverlay.classList.remove('opacity-0'); // Fait apparaître l'overlay en fondu
-            ultimateCelebrationOverlay.classList.add('ultimate-celebration-active'); // Active l'animation de fond
+            ultimateCelebrationOverlay.classList.remove('opacity-0');
+            ultimateCelebrationOverlay.classList.add('ultimate-celebration-active');
 
-            playCelebrationSound(); // Joue le son de célébration
+            playCelebrationSound();
 
-            // Déclenche une explosion de confettis beaucoup plus grande et plus dispersée
             spawnConfettiEmojis(200, window.innerWidth / 2, window.innerHeight / 2, 1.8);
 
-            // Cache l'overlay après un délai
             setTimeout(() => {
-                ultimateCelebrationOverlay.classList.add('opacity-0'); // Fait disparaître l'overlay en fondu
-                ultimateCelebrationOverlay.classList.remove('ultimate-celebration-active'); // Désactive l'animation de fond
+                ultimateCelebrationOverlay.classList.add('opacity-0');
+                ultimateCelebrationOverlay.classList.remove('ultimate-celebration-active');
                 ultimateCelebrationOverlay.addEventListener('transitionend', () => {
                     ultimateCelebrationOverlay.classList.add('hidden');
-                }, { once: true }); // S'assure que l'écouteur est retiré après une utilisation
-            }, 5000); // L'overlay reste visible pendant 5 secondes
+                }, { once: true });
+            }, 5000);
         }
 
 
@@ -888,26 +1012,118 @@
         // Écouteur d'événement pour le bouton de remise à zéro
         resetButton.addEventListener('click', () => {
             jagerbombCount = 0;
-            previousJagerbombCount = 0; // Réinitialise aussi le compte précédent
-            milestone1Reached = false; // Réinitialise les flags des paliers
+            previousJagerbombCount = 0;
+            milestone1Reached = false;
             milestone2Reached = false;
             milestone3Reached = false;
             updateDisplay();
         });
 
+        // Variables et fonctions pour le jeu "Attrape le Jägerbomb !"
+        let gameScore = 0;
+        let gameTime = 30;
+        let gameRunning = false;
+        let spawnIntervalId;
+        let timerIntervalId;
+        let highScore = 0;
+
+        /**
+         * Démarre le jeu "Attrape le Jägerbomb !".
+         */
+        function startGame() {
+            if (gameRunning) return;
+            gameRunning = true;
+            gameScore = 0;
+            gameTime = 30;
+            gameScoreDisplay.textContent = gameScore;
+            gameTimerDisplay.textContent = `${gameTime}s`;
+            gameArea.innerHTML = '';
+            gameResultDisplay.classList.add('hidden');
+            startGameButton.classList.add('hidden');
+
+            timerIntervalId = setInterval(() => {
+                gameTime--;
+                gameTimerDisplay.textContent = `${gameTime}s`;
+                if (gameTime <= 0) {
+                    endGame();
+                }
+            }, 1000);
+
+            spawnIntervalId = setInterval(spawnJagerbomb, 1000);
+        }
+
+        /**
+         * Fait apparaître un Jägerbomb aléatoirement dans la zone de jeu.
+         */
+        function spawnJagerbomb() {
+            if (!gameRunning) return;
+
+            const jagerbombEmoji = document.createElement('span');
+            jagerbombEmoji.textContent = '🍹';
+            jagerbombEmoji.classList.add('absolute', 'text-4xl', 'cursor-pointer', 'transition-all', 'duration-100', 'hover:scale-125');
+
+            const maxX = gameArea.clientWidth - 50;
+            const maxY = gameArea.clientHeight - 50;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            jagerbombEmoji.style.left = `${randomX}px`;
+            jagerbombEmoji.style.top = `${randomY}px`;
+
+            jagerbombEmoji.addEventListener('click', () => {
+                if (gameRunning) {
+                    gameScore++;
+                    gameScoreDisplay.textContent = gameScore;
+                    jagerbombEmoji.remove();
+                }
+            });
+
+            gameArea.appendChild(jagerbombEmoji);
+
+            setTimeout(() => {
+                if (jagerbombEmoji.parentNode === gameArea) {
+                    jagerbombEmoji.remove();
+                }
+            }, 1500);
+        }
+
+        /**
+         * Termine le jeu et affiche le score.
+         */
+        function endGame() {
+            gameRunning = false;
+            clearInterval(spawnIntervalId);
+            clearInterval(timerIntervalId);
+            gameArea.innerHTML = '';
+            startGameButton.classList.remove('hidden');
+
+            if (gameScore > highScore) {
+                highScore = gameScore;
+            }
+
+            finalGameScore.textContent = gameScore;
+            highGameScore.textContent = highScore;
+            gameResultDisplay.classList.remove('hidden');
+        }
+
+        // Écouteur d'événement pour le bouton de démarrage du jeu
+        startGameButton.addEventListener('click', startGame);
+        // Écouteur d'événement pour le bouton "Rejouer"
+        playAgainButton.addEventListener('click', startGame);
+
+
         // Mise à jour initiale de l'affichage, de la jauge et initialisation de l'audio au chargement de la page
         window.onload = () => {
-            updateDisplay();
-            updateGauge();
-            setupAudio(); // Initialise le contexte audio
-            updateBacCalculator(); // Met à jour le calculateur d'alcoolémie au chargement
+            setupAudio(); // Initialise le contexte audio et les synthétiseurs
+            loadSettings(); // Charge les paramètres sauvegardés
+            updateDisplay(); // Met à jour l'affichage et les calculs initiaux
             
-            // Masquer tous les écrans sauf l'écran d'accueil au démarrage
             welcomeScreen.classList.remove('hidden');
             objectiveSettingScreen.classList.add('hidden');
             mainAppScreen.classList.add('hidden');
-            actionOrTruthScreen.style.display = 'none'; // Assurez-vous que l'écran Action ou Vérité est caché au démarrage
+            actionOrTruthScreen.style.display = 'none';
         };
     </script>
 </body>
 </html>
+                                
